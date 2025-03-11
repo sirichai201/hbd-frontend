@@ -1,16 +1,33 @@
-// Music toggle
+// Music toggle and auto-play
 let musicPlaying = false;
+
+function initPage() {
+  const music = document.getElementById('birthdayMusic');
+  const btn = document.getElementById('musicBtn');
+  if (musicPlaying) {
+    music.play().catch(error => {
+      console.log("Auto-play blocked by browser: ", error);
+      // Fallback: Show a button to start music if auto-play is blocked
+      btn.innerText = '🎵 เริ่มเพลง';
+      btn.onclick = () => {
+        music.play();
+        btn.innerText = '⏸️ ปิดเพลง';
+        musicPlaying = true;
+      };
+    });
+  }
+}
 
 function toggleMusic() {
   const music = document.getElementById('birthdayMusic');
   const btn = document.getElementById('musicBtn');
 
-  if (!musicPlaying) {
-    music.play();
-    btn.innerText = '⏸️ ปิดเพลง';
-  } else {
+  if (musicPlaying) {
     music.pause();
     btn.innerText = '🎵 เปิดเพลง';
+  } else {
+    music.play();
+    btn.innerText = '⏸️ ปิดเพลง';
   }
   musicPlaying = !musicPlaying;
 }
@@ -25,18 +42,28 @@ function nextStep() {
   const nextBtn = document.getElementById('nextBtn');
   const images = document.querySelectorAll('.image-item');
 
+  // Reset image slider when entering Step 2
+  if (currentStep === 1) {
+    currentImage = 0; // Reset to the first image
+    images.forEach(img => img.classList.remove('active'));
+    images[currentImage].classList.add('active'); // Show the first image
+  }
+
+  // Show the popup on the first step
   if (currentStep === 0) {
     popup.style.display = 'flex';
   }
 
+  // Move to the next step
   if (currentStep < steps.length) {
     steps.forEach(step => step.classList.remove('active'));
     steps[currentStep].classList.add('active');
     currentStep++;
   }
 
+  // Hide the "Next" button on the last step
   if (currentStep === steps.length) {
-    nextBtn.style.display = 'none'; // ซ่อนปุ่ม "ถัดไป" เมื่อถึงขั้นสุดท้าย
+    nextBtn.style.display = 'none';
   }
 }
 
@@ -45,7 +72,7 @@ function nextImage() {
   images.forEach(img => img.classList.remove('active'));
   currentImage++;
   if (currentImage >= images.length) {
-    currentImage = 0;
+    currentImage = 0; // Loop back to the first image
   }
   images[currentImage].classList.add('active');
 }
@@ -55,7 +82,7 @@ function prevImage() {
   images.forEach(img => img.classList.remove('active'));
   currentImage--;
   if (currentImage < 0) {
-    currentImage = images.length - 1;
+    currentImage = images.length - 1; // Loop to the last image
   }
   images[currentImage].classList.add('active');
 }
@@ -135,15 +162,6 @@ function initParticles() {
   particles = Array.from({ length: 100 }, createParticle);
   updateParticles();
   setInterval(createHeart, 500);
-
-  // เพิ่ม Sweet Alert
-  Swal.fire({
-    title: '🎂 สุขสันต์วันเกิดที่รัก! 🎂',
-    text: 'วันนี้เป็นวันพิเศษของเธอนะ รักเธอที่สุดเลย 💕',
-    icon: 'success',
-    confirmButtonText: 'เริ่มเลย!',
-    confirmButtonColor: '#ff85a1'
-  });
 }
 
 initParticles();
