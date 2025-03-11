@@ -6,33 +6,98 @@
   <title>🎉 สุขสันต์วันเกิด 🎉</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body>
-  <!-- Confetti -->
+<body onload="toggleMusic()">
+  <!-- Confetti and Heart Background -->
   <canvas id="confetti-canvas"></canvas>
+  <div class="heart-background"></div>
 
   <div class="container">
+    <img src="https://via.placeholder.com/100x100.png?text=🐱" alt="แมว" class="cute-character">
     <h1>🎂 สุขสันต์วันเกิดที่รัก! 🎂</h1>
     <p class="message">ขอให้วันนี้เป็นวันที่พิเศษสุด ๆ เต็มไปด้วยรอยยิ้มและความสุข รักเธอนะ 💕</p>
     
     <div class="button-group">
-      <button onclick="showWish()">🎁 รับคำอวยพรพิเศษ</button>
-      <button onclick="toggleMusic()" id="musicBtn">🎵 เปิดเพลง</button>
+      <button onclick="nextStep()" id="wishBtn">🎁 รับคำอวยพรพิเศษ</button>
+      <button onclick="toggleMusic()" id="musicBtn">⏸️ ปิดเพลง</button>
     </div>
     
     <!-- Popup Wish -->
     <div class="popup" id="wishPopup">
       <div class="popup-content">
-        <h2>💖 รักเธอที่สุดในโลก 💖</h2>
-        <p>ขอให้เธอมีความสุขมาก ๆ สุขภาพแข็งแรง และสมหวังทุกอย่างเลยนะ รักตลอดไป!</p>
-        <button onclick="closeWish()">ปิด</button>
+        <!-- Step 1: ข้อความ -->
+        <div id="step1" class="step active">
+          <h2>💖 รักเธอที่สุดในโลก 💖</h2>
+          <p>ขอให้เธอมีความสุขมาก ๆ สุขภาพแข็งแรง และสมหวังทุกอย่างเลยนะ รักตลอดไป!</p>
+        </div>
+        <!-- Step 2: รูปภาพ (5 รูป) -->
+        <div id="step2" class="step">
+          <h2>📸 ความทรงจำของเรา</h2>
+          <div class="image-slider">
+            <div class="image-item active">
+              <div class="image-frame">
+                <img src="/img/images.png" alt="รูปที่ 1" class="popup-image">
+              </div>
+              <p>วันที่เราไปเที่ยวด้วยกันครั้งแรก 💕</p>
+            </div>
+            <div class="image-item">
+              <div class="image-frame">
+                <img src="https://via.placeholder.com/300x200.png?text=รูปที่+2" alt="รูปที่ 2" class="popup-image">
+              </div>
+              <p>ตอนเธอยิ้มน่ารักสุด ๆ เลย 😍</p>
+            </div>
+            <div class="image-item">
+              <div class="image-frame">
+                <img src="https://via.placeholder.com/300x200.png?text=รูปที่+3" alt="รูปที่ 3" class="popup-image">
+              </div>
+              <p>วันพิเศษที่เราอยู่ด้วยกัน 🎉</p>
+            </div>
+            <div class="image-item">
+              <div class="image-frame">
+                <img src="https://via.placeholder.com/300x200.png?text=รูปที่+4" alt="รูปที่ 4" class="popup-image">
+              </div>
+              <p>โมเมนต์ที่ทำให้ใจเต้นแรง 💓</p>
+            </div>
+            <div class="image-item">
+              <div class="image-frame">
+                <img src="https://via.placeholder.com/300x200.png?text=รูปที่+5" alt="รูปที่ 5" class="popup-image">
+              </div>
+              <p>รักเธอทุกวันเลยนะ 💖</p>
+            </div>
+            <div class="image-nav">
+              <button onclick="prevImage()" id="prevImageBtn">⬅️</button>
+              <button onclick="nextImage()" id="nextImageBtn">➡️</button>
+            </div>
+          </div>
+        </div>
+        <!-- Step 3: วิดีโอ -->
+        <div id="step3" class="step">
+          <h2>🎥 คลิปพิเศษสำหรับเธอ</h2>
+          <video controls class="popup-video">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            เบราว์เซอร์ของคุณไม่รองรับวิดีโอ
+          </video>
+        </div>
+        <!-- Step 4: การ์ดอวยพรสุดท้าย -->
+        <div id="step4" class="step">
+          <h2>🎈 ขอบคุณที่เป็นเธอ 🎈</h2>
+          <div class="final-card">
+            <img src="https://via.placeholder.com/150x150.png?text=💖" alt="รูปหัวใจ" class="final-image">
+            <p>รักเธอมาก ๆ นะ ขอให้วันเกิดปีนี้เป็นวันที่ดีที่สุดเลย! 💕</p>
+          </div>
+        </div>
+        <div class="button-container">
+          <button onclick="nextStep()" id="nextBtn">ถัดไป</button>
+          <button onclick="closeWish()" id="closeBtn">ปิด</button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Audio -->
   <audio id="birthdayMusic" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mp3">
+    <source src="/img/sound-effect-cat-chattering-and-meowing-282900.mp3" type="audio/mp3">
   </audio>
 
   <!-- JS -->
