@@ -1,5 +1,5 @@
 // Music toggle and auto-play
-let musicPlaying = false;
+let musicPlaying = true;
 
 function initPage() {
   const music = document.getElementById('birthdayMusic');
@@ -7,7 +7,6 @@ function initPage() {
   if (musicPlaying) {
     music.play().catch(error => {
       console.log("Auto-play blocked by browser: ", error);
-      // Fallback: Show a button to start music if auto-play is blocked
       btn.innerText = '🎵 เริ่มเพลง';
       btn.onclick = () => {
         music.play();
