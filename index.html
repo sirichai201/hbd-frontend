@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎉 สุขสันต์วันเกิด 🎉</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Confetti -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="container">
+    <h1>🎂 สุขสันต์วันเกิดที่รัก! 🎂</h1>
+    <p class="message">ขอให้วันนี้เป็นวันที่พิเศษสุด ๆ เต็มไปด้วยรอยยิ้มและความสุข รักเธอนะ 💕</p>
+    
+    <div class="button-group">
+      <button onclick="showWish()">🎁 รับคำอวยพรพิเศษ</button>
+      <button onclick="toggleMusic()" id="musicBtn">🎵 เปิดเพลง</button>
+    </div>
+    
+    <!-- Popup Wish -->
+    <div class="popup" id="wishPopup">
+      <div class="popup-content">
+        <h2>💖 รักเธอที่สุดในโลก 💖</h2>
+        <p>ขอให้เธอมีความสุขมาก ๆ สุขภาพแข็งแรง และสมหวังทุกอย่างเลยนะ รักตลอดไป!</p>
+        <button onclick="closeWish()">ปิด</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="birthdayMusic" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>
