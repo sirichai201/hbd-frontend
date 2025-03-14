@@ -1,20 +1,21 @@
 // Music toggle and auto-play
-let musicPlaying = true;
+let musicPlaying = false; // เริ่มต้นเป็น false และจะเปลี่ยนเมื่อเล่นสำเร็จ
 
 function initPage() {
   const music = document.getElementById('birthdayMusic');
   const btn = document.getElementById('musicBtn');
-  if (musicPlaying) {
-    music.play().catch(error => {
-      console.log("Auto-play blocked by browser: ", error);
-      btn.innerText = '🎵 เริ่มเพลง';
-      btn.onclick = () => {
-        music.play();
-        btn.innerText = '⏸️ ปิดเพลง';
-        musicPlaying = true;
-      };
+
+  // เล่นเพลงทันทีเมื่อโหลดหน้า
+  music.play()
+    .then(() => {
+      musicPlaying = true; // อัปเดตสถานะเมื่อเล่นสำเร็จ
+      btn.innerText = '⏸️ ปิดเพลง'; // แสดงปุ่มหยุดชั่วคราว
+      console.log("เพลงเริ่มเล่นอัตโนมัติ");
+    })
+    .catch(error => {
+      console.log("การเล่นอัตโนมัติล้มเหลว: ", error);
+      btn.innerText = '🎵 เปิดเพลง'; // ถ้าล้มเหลว ให้ผู้ใช้กดเล่นเอง
     });
-  }
 }
 
 function toggleMusic() {
@@ -22,13 +23,17 @@ function toggleMusic() {
   const btn = document.getElementById('musicBtn');
 
   if (musicPlaying) {
-    music.pause();
-    btn.innerText = '🎵 เปิดเพลง';
+    music.pause(); // หยุดเพลง
+    btn.innerText = '🎵 เปิดเพลง'; // เปลี่ยนปุ่มเป็น "เปิดเพลง"
+    musicPlaying = false; // อัปเดตสถานะ
   } else {
-    music.play();
-    btn.innerText = '⏸️ ปิดเพลง';
+    music.play() // เล่นเพลง
+      .then(() => {
+        btn.innerText = '⏸️ ปิดเพลง'; // เปลี่ยนปุ่มเป็น "ปิดเพลง"
+        musicPlaying = true; // อัปเดตสถานะ
+      })
+      .catch(error => console.log("เกิดข้อผิดพลาดในการเล่น: ", error));
   }
-  musicPlaying = !musicPlaying;
 }
 
 // Popup steps
@@ -160,7 +165,7 @@ function initParticles() {
   resizeCanvas();
   particles = Array.from({ length: 100 }, createParticle);
   updateParticles();
-  setInterval(createHeart, 500);
+  setInterval(createHeart, 1000);
 }
 
 initParticles();
